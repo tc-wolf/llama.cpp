@@ -17227,6 +17227,8 @@ static void llama_state_get_data_internal(struct llama_context * ctx, llama_data
     // copy rng
     {
         std::ostringstream rng_ss;
+        fprintf(stderr, "Setting locale using std::locale::classic()\n");
+        rng_ss.imbue(std::locale::classic());
         rng_ss << ctx->rng;
 
         const std::string & rng_str  = rng_ss.str();
@@ -17391,10 +17393,13 @@ size_t llama_state_set_data(struct llama_context * ctx, const uint8_t * src) {
 
         std::string rng_str((const char *)inp, rng_size); inp += rng_size;
 
+        fprintf(stderr, "WARNING: Skipping deserializing the rng state\n");
+        /*
         std::istringstream rng_ss(rng_str);
         rng_ss >> ctx->rng;
 
         GGML_ASSERT(!rng_ss.fail());
+        */
     }
 
     // set output ids
