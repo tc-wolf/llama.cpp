@@ -20819,7 +20819,10 @@ struct llama_data_read
 
         std::istringstream rng_ss(rng_str);
         rng_ss.imbue(std::locale::classic());
-        rng_ss >> rng;
+        // Skip reading from disk
+        // rng_ss >> rng;
+        // Warn that not reloading:
+        LLAMA_LOG_WARN("RNG state not reloaded because not cross-platform (test again to see if can find workaround)\n");
 
         if (rng_ss.fail())
         {
